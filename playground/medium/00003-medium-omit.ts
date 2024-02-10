@@ -30,7 +30,19 @@
 
 /* _____________ Your Code Here _____________ */
 
-type MyOmit<T, K> = any
+type MyOmit<T extends {}, K extends keyof T> = {
+  [P in keyof T as P extends K ? never: P]: T[P]
+}
+
+
+interface User {
+  name: string
+  age: number
+}
+
+
+type test = MyOmit<User, "name">
+//      ^?
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
