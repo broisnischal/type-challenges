@@ -22,10 +22,14 @@
 
 /* _____________ Your Code Here _____________ */
 
-type MyAwaited<T> = any
+type MyAwaited<T extends PromiseLike<any>> =
+  T extends PromiseLike<infer U> ?
+    U extends PromiseLike<any>
+    ? MyAwaited<U>
+    : U : never;
 
 /* _____________ Test Cases _____________ */
-import type { Equal, Expect } from '@type-challenges/utils'
+import type { Equal, Expect, ExpectExtends } from '@type-challenges/utils'
 
 type X = Promise<string>
 type Y = Promise<{ field: number }>
